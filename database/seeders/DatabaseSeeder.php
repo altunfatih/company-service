@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -27,5 +28,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\User::factory(5)->create();
+
+        Service::insert([
+            'service_name' => 'Para İşlemleri',
+            'price' => 0,
+            'description' => 'Para Yatırma ve Çekme İşlemleri',
+        ]);
     }
 }
