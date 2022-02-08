@@ -73,6 +73,18 @@ class UserController extends Controller
             ], 404);
     }
 
+    public function showInfo($id)
+    {
+        $user = User::find($id);
+        
+        if($user)
+            return response($user, 200);
+        else
+            return response([
+                'message' => 'User not found'
+            ], 404);
+    }
+
     /**
      * Update the specified resource in storage.
      *

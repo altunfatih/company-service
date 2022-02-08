@@ -15,7 +15,19 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        return Service::all();
+        return Service::where('id', '<>', 1)->get();
+    }
+
+    public function show($id)
+    {
+        $service = Service::find($id);
+
+        if($service)
+            return response($service, 200);
+        else
+            return response([
+                'message' => 'User not found'
+            ], 404);
     }
 
     /**
