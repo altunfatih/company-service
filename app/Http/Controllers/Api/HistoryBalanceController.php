@@ -47,49 +47,29 @@ class HistoryBalanceController extends Controller
 
     public function destroy($id)
     {
-        $userAuth = auth()->user();
         $admin = User::find(1);
 
         $history_balance = HistoryBalance::find($id);
+        $user = User::find($history_balance->received_service_id);
 
         $service_price = Service::find($history_balance->service_id);
 
-        $userAuth->balance += $service_price->price;
-        $userAuth->save();
-
-        $admin->balance -= $service_price->price;
-        $admin->save();
+        if($history_balance->money == 0) {
+            $user->balance += ($service_price->price * $history_balance->quantity);
+            $user->save();
+    
+            $admin->balance -= ($service_price->price * $history_balance->quantity);
+            $admin->save();
+        }
+        else {
+            $user->balance -= $history_balance->money;
+            $user->save();
+        }
         
         HistoryBalance::find($id)->delete();
-        HistoryBalance::find($id - 1)->delete();
+        HistoryBalance::find($id + 1)->delete();
         return response([
             'message' => 'History Deleted'
         ], 200);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $input = $request->all();
-        $history_balance_admin = HistoryBalance::find($id);
-        $history_balance_user = HistoryBalance::find($id - 1);
-
-        //HistoryBalance::create([
-        //    'quantity' => $request->quantity
-        //]);
-        $admin = User::find($history_balance_admin->received_service_id);
-        $service = Service::find($history_balance_admin->service_id);
-
-        $history_balance_admin->update($input);
-        $history_balance_user->update($input);
-
-        $requestQuantity = $request->quantity;
-        $historyBalanceQuantity = $history_balance_admin->quantity;
-
-        $val = $historyBalanceQuantity - $requestQuantity;
-
-        dd($val);
-
-        $admin->balance = $service->price * $val;
-        $admin->save(); 
     }
 }
