@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OperationsController;
 use App\Http\Controllers\Api\HistoryBalanceController;
 use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\HistoryMoneyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,11 +33,20 @@ Route::group(['middleware' => ['auth:sanctum', 'isAdmin']], function () {
 });
 
 Route::get('/service', [ServiceController::class, 'index'])->middleware('auth:sanctum');
+
 Route::get('/historyBalance', [HistoryBalanceController::class, 'index'])->middleware('auth:sanctum');
 Route::get('/historyBalance/{id}', [HistoryBalanceController::class, 'show'])->middleware(['auth:sanctum', 'isAdmin']);
 Route::delete('/historyBalance/{id}', [HistoryBalanceController::class, 'destroy'])->middleware(['auth:sanctum', 'isAdmin']);
 Route::put('/historyBalance/{id}', [HistoryBalanceController::class, 'update'])->middleware(['auth:sanctum', 'isAdmin']);
+
 Route::put('/amountOperations', [OperationsController::class, 'amountOperations'])->middleware('auth:sanctum');
+Route::put('/moneyOperations', [OperationsController::class, 'moneyOperations'])->middleware('auth:sanctum');
+
+Route::get('/historyMoney/{id}', [HistoryMoneyController::class, 'show'])->middleware(['auth:sanctum', 'isAdmin']);
+Route::get('/historyMoney', [HistoryMoneyController::class, 'index'])->middleware('auth:sanctum');
+Route::delete('/historyMoney/{id}', [HistoryMoneyController::class, 'destroy'])->middleware(['auth:sanctum', 'isAdmin']);
+
+Route::get('/deneme/{id}', [UserController::class, 'showInfo'])->middleware(['auth:sanctum', 'isAdmin']);
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/users', [UserController::class, 'store']);
