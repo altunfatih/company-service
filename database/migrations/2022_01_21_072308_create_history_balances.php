@@ -18,6 +18,7 @@ class CreateHistoryBalances extends Migration
             $table->string('received_service_id');
             $table->string('service_id');
             $table->integer('quantity');
+            $table->integer('money');
             $table->double('oldBalance');
             $table->double('newBalance');
             $table->string('user_id');

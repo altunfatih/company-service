@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\HistoryBalance;
+use App\Models\HistoryMoney;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -54,9 +55,43 @@ class OperationsController extends Controller
             'received_service_id' => $received_service_id,
             'service_id' => $service_id,
             'quantity' => $quantity,
+            'money' => '0',
             'oldBalance' => $oldBalance,
             'newBalance' => $newBalance,
             'user_id' =>$user_id,
         ]);
     }
+
+    public function moneyOperations(Request $request) {
+        $user = $request->email;
+        $user = User::where('email', $user)->first();
+
+        $money = $request->money;
+        
+        $oldBalance = $user->balance;
+        $newBalance = $user->balance;
+
+        $newBalance += $money;
+        $user->balance = $newBalance;
+
+        $admin = User::find(1);
+        $admin->save();
+        $user->save();
+
+        $this->saveHistoryMoney($user->id, $money, $oldBalance, $newBalance, $user->id);
+        $this->saveHistoryMoney($user->id, $money, $oldBalance, $newBalance, $admin->id);
+    }
+
+    public function saveHistoryMoney($received_service_id, $money, $oldBalance, $newBalance, $user_id) {
+        HistoryBalance::create([
+            'received_service_id' => $received_service_id,
+            'service_id' => '1',
+            'quantity' => '0',
+            'money' => $money,
+            'oldBalance' => $oldBalance,
+            'newBalance' => $newBalance,
+            'user_id' =>$user_id,
+        ]);
+    }
+
 }
