@@ -1,0 +1,449 @@
+openapi: 3.0.2
+info:
+  title: Company Services
+  description: Company Services API Documentation
+  version: 0.1.0
+paths:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  
+  /api/login:
+    post:
+      summary: Login
+      operationId: post-auth-login
+      responses:
+        "200":
+          description: OK
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  example: admin@admin.com
+                password:
+                  example: password
+            examples:
+              example:
+                value:
+                  email: user email
+                  password: password
+                  name: Name
+      tags:
+        - Login
+      x-internal: true
+      description: ""
+    parameters: []
+  
+  /api/users:
+    post:
+      summary: register user
+      tags:
+        - User Operations
+      responses: {}
+      operationId: get-register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: "OK"
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - name
+                - email
+                - password
+              x-examples:
+                example-1:
+                  name: "Ahmed"
+                  email: "User@oniki.com"
+                  password: "password159753"
+            examples:
+              example:
+                value:
+                  name: string
+                  email: string
+                  password: string
+
+  /api/users/{id}:
+    delete:
+      summary: user delete
+      tags:
+        - User Operations
+      responses: {}
+      operationId: user-delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: "OK"
+              type: object
+              properties:
+                id:
+                  type: string
+              required:
+                - id
+              x-examples:
+                example-1:
+                  id: "2"
+            examples:
+              example:
+                value:
+                  id: string
+
+  /api/users/{user}:
+    get:
+      tags:
+        - User Operations
+      summary: show user profile
+      parameters:
+        - name: user
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A JSON array of user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  
+  /api/users/:
+    put:
+      tags:
+        - User Operations
+      summary: update a user profile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  example: name
+                balance:
+                  example: balance
+      parameters:
+        - name: user
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A JSON array of updated user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  
+  /api/user/allUsers:
+    get:
+      summary: "All User"
+      tags:
+        - User Operations
+      responses: {}
+      operationId: get-dashboard-notifications
+
+  /api/service:
+    post:
+      summary: added service
+      tags:
+        - Service Operations
+      responses: {}
+      operationId: post-service
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: "OK"
+              type: object
+              properties:
+                service_name:
+                  type: string
+                price:
+                  type: integer
+                description:
+                  type: string
+              required:
+                - service_name
+                - price
+                - description
+              x-examples:
+                example-1:
+                  service_name: "Yıkama"
+                  price: 200
+                  description: "İç Dış yıkama"
+            examples:
+              example:
+                value:
+                  service_name: string
+                  price: integer
+                  description: string
+
+  /api/service/:
+      get:
+        summary: "All Service"
+        tags:
+          - Service Operations
+        responses: {}
+        operationId: get-dashboard-notifications
+
+  /api/service/{service}:
+      get:
+        tags:
+          - Service Operations
+        summary: show service 
+        parameters:
+          - name: service
+            in: path
+            description: Service ID
+            required: true
+            schema:
+              type: string
+        responses:
+          "200":
+            description: A JSON array of service
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: string
+
+  /api/service/--:
+      put:
+        tags:
+          - Service Operations
+        summary: update a service 
+        requestBody:
+          content:
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  price:
+                    example: price
+                  description:
+                    example: description
+
+  /api/service/{id}:
+    delete:
+      summary: service delete
+      tags:
+        - Service Operations
+      responses: {}
+      operationId: service-delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: "OK"
+              type: object
+              properties:
+                id:
+                  type: string
+              required:
+                - id
+              x-examples:
+                example-1:
+                  id: "2"
+            examples:
+              example:
+                value:
+                  id: string
+
+  /api/historyBalance:
+      get:
+        summary: "All History"
+        tags:
+          - History Operations
+        responses: {}
+        operationId: get-dashboard-notifications
+
+  /api/historyBalance/{id}:
+      get:
+        tags:
+          - History Operations
+        summary: show history 
+        parameters:
+          - name: service
+            in: path
+            description: History ID
+            required: true
+            schema:
+              type: string
+        responses:
+          "200":
+            description: A JSON array of service
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: string
+
+  /api/historyBalance/{id}/:
+    delete:
+      summary: history delete
+      tags:
+        - History Operations
+      responses: {}
+      operationId: service-history-delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: "OK"
+              type: object
+              properties:
+                id:
+                  type: string
+              required:
+                - id
+              x-examples:
+                example-1:
+                  id: "2"
+            examples:
+              example:
+                value:
+                  id: string
+
+  /api/amountOperations:
+    put:
+      tags:
+        - Operations
+      summary: service operations
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  example: email
+                service_name:
+                  example: service_name
+                quantity:
+                  example: quantity
+      responses:
+        "200":
+          description: A JSON array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /api/moneyOperations:
+    put:
+      tags:
+        - Operations
+      summary: money operations
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  example: email
+                money:
+                  example: money
+      responses:
+        "200":
+          description: A JSON array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+components:
+  responses:
+    ServerError:
+      description: Server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+              message: Server Error
+    TooManyRequest:
+      description: Rate limit exceeded error happens when too many requests sent. User must wait one minute.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+              message: Too Many Attempts.
+    InputError:
+      description: Input error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              errors:
+                type: object
+                items:
+                  type: object
+                  properties:
+                    field_name:
+                      type: array
+                      items:
+                        type: string
+            example:
+              message: Error message
+              errors:
+                field_name:
+                  - Error message about field
+                  - Another error message about field
+    Default:
+      description: Default response
+      content:
+        application/json: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []
+tags:
+  - name: Login
+    description: login
+  - name: User Operations
+    description: user operations
+  - name: Service Operations
+    description: service operations
+  - name: History Operations
+    description: history operations
+  - name: Operations
+    description: operations

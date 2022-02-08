@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <script src="https://unpkg.com/swagger-ui-dist@3.30.0/swagger-ui-standalone-preset.js"></script>
+    <script src="https://unpkg.com/swagger-ui-dist@3.30.0/swagger-ui-bundle.js"></script>
+    <link href="https://unpkg.com/swagger-ui-dist@3.30.0/swagger-ui.css" rel="stylesheet"/>
+    <title>Company Service API Documentation</title>
+</head>
+
+<body>
+<div class="container-fluid content3">
+    </br>
+    <div style="text-align: center">
+        <input type='text' id="token" value="" size="100">
+        <button type="button" onclick="changingToken()">Constant Token</button>
+    </div>
+
+    <div class="row">
+        <div id="swagger-ui"></div>
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        let tokenItem = document.getElementById('token');
+        SwaggerUIBundle({
+            url: "/swagger/swagger.yml",
+            dom_id: "#swagger-ui",
+            docExpansion: "none",
+            deepLinking: true,
+            accept: "application/vnd.api+json",
+            requestInterceptor: function () {
+                this.headers["accept"] = "application/vnd.api+json";
+                // this.headers["Content-Type"] = "application/vnd.api+json";
+                if (token = localStorage.getItem("token"))
+                    this.headers["Authorization"] = 'Bearer ' + token;
+                return this;
+            },
+            presets: [
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIStandalonePreset
+            ],
+            layout: "BaseLayout"
+        });
+        tokenItem.value = localStorage.getItem("token");
+    };
+
+    function changingToken() {
+        localStorage.setItem("token", document.getElementById('token').value);
+    }
+</script>
+</body>
+
+</html>
