@@ -126,7 +126,7 @@ class UserController extends Controller
         
         return response([
             'message' => 'User Deleted'
-        ], 200);
+        ], 204);
     }
 
     public function login(Request $request)
